@@ -10,20 +10,20 @@ router.post('/login', async (req, res, next) => {
 
   // ตรวจสอบว่ามี email และ password
   if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required' });
+      return res.status(200).json({ message: 'Email and password are required' });
   }
 
   try {
       // ค้นหาผู้ใช้ในฐานข้อมูลตาม email
       const user = await User.findOne({ email });
       if (!user) {
-          return res.status(404).json({ message: 'User not found' });
+          return res.status(200).json({ message: 'User not found' });
       }
 
       // ตรวจสอบรหัสผ่าน
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-          return res.status(401).json({ message: 'Incorrect password' });
+          return res.status(200).json({ message: 'Incorrect password' });
       }
 
       // หากรหัสผ่านถูกต้อง ให้ตอบกลับด้วยข้อมูลผู้ใช้หรือ token สำหรับเซสชัน
