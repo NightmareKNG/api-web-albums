@@ -8,7 +8,7 @@ const albums = require('./routes/albums');
 const albums_type = require('./routes/albums_type');
 require('dotenv').config()
 const url = process.env.MONGO_URI
-
+const cors = this.request('cors');
 mongoose.Promise = global.Promise;
 
 mongoose.connect(url)
@@ -29,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
