@@ -8,7 +8,7 @@ const albums = require('./routes/albums');
 const albums_type = require('./routes/albums_type');
 require('dotenv').config()
 const url = process.env.MONGO_URI
-const cors = this.request('cors');
+const cors = require('cors');
 mongoose.Promise = global.Promise;
 
 mongoose.connect(url)
