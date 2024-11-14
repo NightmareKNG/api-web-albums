@@ -1,13 +1,11 @@
 const admin = require("firebase-admin");
 
-// ใช้ path จากตัวแปรสภาพแวดล้อม
-const serviceAccount = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
 
 admin.initializeApp({
-  credential: admin.credential.cert(require(serviceAccount)),
+  credential: admin.credential.cert(serviceAccount),
   storageBucket: "project-adw.appspot.com"
 });
 
 const bucket = admin.storage().bucket();
-
 module.exports = bucket;
