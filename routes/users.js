@@ -7,12 +7,10 @@ const User = require('../models/Users.js');
 // POST ล็อกอินผู้ใช้
 router.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
-
   // ตรวจสอบว่ามี email และ password
   if (!email || !password) {
       return res.status(200).json({ message: 'Email and password are required' });
   }
-
   try {
       // ค้นหาผู้ใช้ในฐานข้อมูลตาม email
       const user = await User.findOne({ email });
