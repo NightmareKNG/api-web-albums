@@ -1,3 +1,4 @@
-node_modules
+# ไฟล์ที่ไม่ต้องการให้ Git ติดตาม
+node_modules/
 serviceAccountKey.json
 .env
