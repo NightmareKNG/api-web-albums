@@ -2,18 +2,13 @@
     {
         "origin": [
             "http://localhost:5173",
-            "https://candid-valkyrie-97ac11.netlify.app"
+            "https://candid-valkyrie-97ac11.netlify.app" // เพิ่ม URL ที่ต้องการ
         ],
         "method": [
             "GET",
             "POST",
             "PUT",
-            "DELETE",
-            "OPTIONS"
-        ],
-        "responseHeader": [
-            "Content-Type",
-            "Authorization"
+            "DELETE"
         ],
         "maxAgeSeconds": 3600
     }

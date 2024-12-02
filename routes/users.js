@@ -52,20 +52,21 @@ router.get('/:id', (req, res, next) => {
 router.post('/', async (req, res, next) => {
     const { email, password, username, profile } = req.body;
 
-    if (!email || !password || !username || !profile) {
-        return res.status(400).json({ message: 'All fields are required: email, password, username, profile' });
+    // ตรวจสอบว่า email, password, และ username ต้องไม่เป็น null หรือ undefined
+    if (!email || !password || !username) {
+        return res.status(400).json({ message: 'Fields email, password, and username are required.' });
     }
 
     try {
         // แฮชรหัสผ่าน
         const hashedPassword = await bcrypt.hash(password, 10);
-        
-        // สร้างผู้ใช้ใหม่พร้อมรหัสผ่านที่แฮชแล้ว
+
+        // สร้างผู้ใช้ใหม่โดย profile สามารถเป็น null ได้
         const newUser = new User({
             email,
             password: hashedPassword,
             username,
-            profile
+            profile: profile || null // กำหนดค่า null ถ้า profile ไม่มีค่า
         });
 
         const user = await newUser.save();
@@ -74,6 +75,7 @@ router.post('/', async (req, res, next) => {
         next(err);
     }
 });
+
 
 // PUT อัปเดตข้อมูลผู้ใช้ตาม ID พร้อมแฮชรหัสผ่านใหม่ถ้ามีการเปลี่ยนแปลง
 router.put('/:id', async (req, res, next) => {
