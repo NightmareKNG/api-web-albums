@@ -1,0 +1,20 @@
+[
+    {
+        "origin": [
+            "http://localhost:5173",
+            "https://candid-valkyrie-97ac11.netlify.app"
+        ],
+        "method": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "OPTIONS"
+        ],
+        "responseHeader": [
+            "Content-Type",
+            "Authorization"
+        ],
+        "maxAgeSeconds": 3600
+    }
+]
