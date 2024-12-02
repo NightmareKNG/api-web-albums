@@ -47,6 +47,27 @@ router.get('/:id', (req, res, next) => {
         res.status(200).json(user);
     });
 });
+// PUT อัปเดต profile ตาม ID
+router.put('/update-profile/:id', async (req, res, next) => {
+    const { profile } = req.body;
+
+    if (!profile) {
+        return res.status(400).json({ message: 'Profile is required' });
+    }
+
+    try {
+        // ค้นหาผู้ใช้ในฐานข้อมูลตาม ID และอัปเดต profile
+        const user = await User.findByIdAndUpdate(req.params.id, { profile }, { new: true });
+        
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'Profile updated successfully', user });
+    } catch (err) {
+        next(err);
+    }
+});
 
 // POST เพิ่มข้อมูลผู้ใช้ใหม่ พร้อมแฮชรหัสผ่าน
 router.post('/', async (req, res, next) => {
