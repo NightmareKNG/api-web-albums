@@ -20,6 +20,17 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+// ตั้งค่า CORS ให้รองรับจากโดเมนที่ต้องการ
+app.use(cors({
+  origin: [
+    'http://localhost:5173', // สำหรับการพัฒนาในเครื่อง
+    'https://candid-valkyrie-97ac11.netlify.app', // สำหรับ production หรือ Netlify
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // ถ้าต้องการให้รับ cookie ด้วย
+}));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -29,12 +40,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/albums', albums);
 app.use('/albums_type', albums_type);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -42,11 +53,9 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
