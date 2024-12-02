@@ -9,6 +9,7 @@ const albums_type = require('./routes/albums_type');
 require('dotenv').config()
 const url = process.env.MONGO_URI
 const cors = require('cors');
+
 mongoose.Promise = global.Promise;
 
 mongoose.connect(url)
@@ -21,15 +22,18 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 // ตั้งค่า CORS ให้รองรับจากโดเมนที่ต้องการ
+app.options('*', cors());  // รับทุก OPTIONS request
+
 app.use(cors({
   origin: [
     'http://localhost:5173', // สำหรับการพัฒนาในเครื่อง
     'https://candid-valkyrie-97ac11.netlify.app', // สำหรับ production หรือ Netlify
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // ถ้าต้องการให้รับ cookie ด้วย
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // กำหนด method ที่รองรับ
+  allowedHeaders: ['Content-Type', 'Authorization'],  // กำหนด header ที่อนุญาต
+  credentials: true,  // ถ้าต้องการให้รับ cookie ด้วย
 }));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -58,6 +62,10 @@ app.use(function(err, req, res, next) {
 
   res.status(err.status || 500);
   res.render('error');
+});
+app.use((err, req, res, next) => {
+  console.error(err.stack);  // แสดงรายละเอียดของข้อผิดพลาด
+  res.status(err.status || 500).send({ error: err.message });
 });
 
 module.exports = app;

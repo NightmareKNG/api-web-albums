@@ -28,6 +28,7 @@ router.get('/:id', (req, res, next) => {
 // POST สร้างอัลบั้มใหม่
 const { v4: uuidv4 } = require('uuid');
 
+// POST สร้างอัลบั้มใหม่
 router.post('/image', upload.single('image'), (req, res, next) => {
   if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded' });
@@ -66,6 +67,7 @@ router.post('/image', upload.single('image'), (req, res, next) => {
 
   blobStream.end(req.file.buffer);
 });
+
 
 
 // บันทึกข้อมูลอัลบั้มโดยใช้ URL ของภาพจาก Firebase
