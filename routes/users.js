@@ -51,14 +51,13 @@ router.get('/:id', (req, res, next) => {
 router.put('/update-profile/:id', async (req, res, next) => {
     const { profile } = req.body;
 
-    if (!profile) {
-        return res.status(400).json({ message: 'Profile is required' });
-    }
-
     try {
-        // ค้นหาผู้ใช้ในฐานข้อมูลตาม ID และอัปเดต profile
-        const user = await User.findByIdAndUpdate(req.params.id, { profile }, { new: true });
-        
+        // ถ้า profile มีค่าเป็น null ให้เซ็ตเป็น null ในฐานข้อมูล
+        const updatedProfile = profile === null ? null : profile;
+
+        // อัปเดตค่า profile ในฐานข้อมูล
+        const user = await User.findByIdAndUpdate(req.params.id, { profile: updatedProfile }, { new: true });
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -68,6 +67,7 @@ router.put('/update-profile/:id', async (req, res, next) => {
         next(err);
     }
 });
+
 
 // POST เพิ่มข้อมูลผู้ใช้ใหม่ พร้อมแฮชรหัสผ่าน
 router.post('/', async (req, res, next) => {
